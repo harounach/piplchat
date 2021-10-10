@@ -4,7 +4,7 @@ import Logo from "../logo.svg";
 const Login = () => {
   return (
     <div className="w-full h-full flex flex-col bg-indigo-900">
-      <header className="w-full h-20 flex items-center">
+      <header className="w-full h-20 flex items-center justify-between px-4 mb-4">
         <div>
           <img className="w-20" src={Logo} alt="Logo" />
         </div>

@@ -4,7 +4,7 @@ import ChatRoom from "./pages/ChatRoom";
 function App() {
   return (
     <div className="w-full h-full">
-      <Login />
+      <ChatRoom />
     </div>
   );
 }
