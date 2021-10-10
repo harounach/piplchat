@@ -1,6 +1,8 @@
 import React from "react";
 import Logo from "../logo.svg";
 
+import Message from "../components/Message";
+
 const ChatRoom = () => {
   return (
     <div className="w-full h-full flex flex-col bg-white">
@@ -15,52 +17,27 @@ const ChatRoom = () => {
       <main className="w-full flex-grow flex justify-center items-start p-2">
         <div className="w-8/12 shadow-md bg-white rounded-lg p-4 flex flex-col items-center gap-4">
           {/* chat row sender */}
-          <div className="flex">
-            {/* avatar */}
-            <div className="w-14 h-14 bg-blue-400 rounded-full flex justify-center items-center flex-shrink-0 mr-2">
-              H
-            </div>
-            {/* Message */}
-            <p className="bg-blue-200 p-2 rounded-lg">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. A, eius!
-            </p>
-          </div>
+          <Message
+            message="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos a
+          voluptatem harum iure recusandae, quis neque perspiciatis tempore"
+          />
 
           {/* chat row recepient */}
-          <div className="flex flex-row-reverse">
-            {/* avatar */}
-            <div className="w-14 h-14 bg-blue-400 rounded-full flex justify-center items-center flex-shrink-0 ml-2">
-              H
-            </div>
-            {/* Message */}
-            <p className="bg-gray-200 p-2 rounded-lg">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. A, eius!
-            </p>
-          </div>
-
+          <Message
+            recepient
+            message="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos"
+          />
           {/* chat row sender */}
-          <div className="flex">
-            {/* avatar */}
-            <div className="w-14 h-14 bg-blue-400 rounded-full flex justify-center items-center flex-shrink-0 mr-2">
-              H
-            </div>
-            {/* Message */}
-            <p className="bg-blue-200 p-2 rounded-lg">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. A, eius!
-            </p>
-          </div>
-
+          <Message
+            message="architecto temporibus! Architecto atque neque nostrum consequatur
+          consectetur quam unde eveniet?"
+          />
           {/* chat row recepient */}
-          <div className="flex flex-row-reverse">
-            {/* avatar */}
-            <div className="w-14 h-14 bg-blue-400 rounded-full flex justify-center items-center flex-shrink-0 ml-2">
-              H
-            </div>
-            {/* Message */}
-            <p className="bg-gray-200 p-2 rounded-lg">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. A, eius!
-            </p>
-          </div>
+          <Message
+            recepient
+            message="quis neque perspiciatis tempore
+          architecto temporibus! Architecto"
+          />
         </div>
       </main>
       <div className="flex justify-center p-4 bg-indigo-900">
