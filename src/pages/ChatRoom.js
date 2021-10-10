@@ -2,6 +2,7 @@ import React from "react";
 import Logo from "../logo.svg";
 
 import Message from "../components/Message";
+import { chatData } from "../data";
 
 const ChatRoom = () => {
   return (
@@ -16,28 +17,15 @@ const ChatRoom = () => {
       </header>
       <main className="w-full flex-grow flex justify-center items-start p-2">
         <div className="w-8/12 shadow-md bg-white rounded-lg p-4 flex flex-col items-center gap-4">
-          {/* chat row sender */}
-          <Message
-            message="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos a
-          voluptatem harum iure recusandae, quis neque perspiciatis tempore"
-          />
-
-          {/* chat row recepient */}
-          <Message
-            recepient
-            message="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum eos"
-          />
-          {/* chat row sender */}
-          <Message
-            message="architecto temporibus! Architecto atque neque nostrum consequatur
-          consectetur quam unde eveniet?"
-          />
-          {/* chat row recepient */}
-          <Message
-            recepient
-            message="quis neque perspiciatis tempore
-          architecto temporibus! Architecto"
-          />
+          {chatData.map((messageEntry) => {
+            return (
+              <Message
+                key={messageEntry.id}
+                message={messageEntry.message}
+                recepient={messageEntry.isRecepient}
+              />
+            );
+          })}
         </div>
       </main>
       <div className="flex justify-center p-4 bg-indigo-900">
