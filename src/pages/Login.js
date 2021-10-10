@@ -15,8 +15,8 @@ const Login = () => {
           <p className="text-base text-gray-500 text-center my-8">
             Login to the app and start chatting with your friends
           </p>
-          <button className="px-4 py-2 bg-yellow-600 rounded-md shadow-md">
-            Login
+          <button className="px-4 py-2 bg-yellow-400 rounded-md shadow-md">
+            Sign In with Google
           </button>
         </div>
       </main>

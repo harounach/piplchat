@@ -11,7 +11,7 @@ const ChatRoom = () => {
         <div>
           <img className="w-20" src={Logo} alt="Logo" />
         </div>
-        <button className="px-4 py-2 bg-yellow-600 rounded-md shadow-md">
+        <button className="px-4 py-2 bg-yellow-400 rounded-md shadow-md">
           Logout
         </button>
       </header>
@@ -34,8 +34,8 @@ const ChatRoom = () => {
             type="text"
             className="px-4 py-2 bg-white rounded-md shadow-md flex-grow w-24"
           />
-          <button className="px-4 py-2 ml-2 bg-yellow-600 rounded-md shadow-md ">
-            Logout
+          <button className="px-4 py-2 ml-2 bg-yellow-400 rounded-md shadow-md ">
+            Submit
           </button>
         </form>
       </div>
