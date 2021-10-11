@@ -73,6 +73,10 @@ const ChatRoom = () => {
     setMessage("");
   };
 
+  const isRecepient = (currentUID, UID) => {
+    return currentUID !== UID;
+  };
+
   const chatRoomBody =
     status === "loading" ? (
       <Loader />
@@ -81,8 +85,8 @@ const ChatRoom = () => {
         return (
           <Message
             key={messageEntry.id}
-            message={messageEntry.message}
-            recepient={messageEntry.isRecepient}
+            messageEntry={messageEntry}
+            recepient={isRecepient(user.uid, messageEntry.uid)}
           />
         );
       })

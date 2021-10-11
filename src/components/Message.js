@@ -1,7 +1,7 @@
 import React from "react";
-import classNames from "classnames";
+import classNames from "tailwindcss-classnames";
 
-const Message = ({ recepient, message }) => {
+const Message = ({ recepient, messageEntry }) => {
   const avatarClasses = classNames(
     "w-14",
     "h-14",
@@ -11,11 +11,12 @@ const Message = ({ recepient, message }) => {
     "justify-center",
     "items-center",
     "flex-shrink-0",
+    "overflow-hidden",
     { "mr-2": !recepient },
     { "ml-2": recepient }
   );
 
-  const messageRowClasses = classNames("flex", {
+  const messageRowClasses = classNames("flex", "w-full", {
     "flex-row-reverse": recepient,
   });
 
@@ -28,9 +29,11 @@ const Message = ({ recepient, message }) => {
   return (
     <div className={messageRowClasses}>
       {/* avatar */}
-      <div className={avatarClasses}>H</div>
+      <div className={avatarClasses}>
+        <img src={messageEntry.photoURL} alt={messageEntry.name + " Photo"} />
+      </div>
       {/* Message */}
-      <p className={messageClasses}>{message}</p>
+      <p className={messageClasses}>{messageEntry.message}</p>
     </div>
   );
 };
