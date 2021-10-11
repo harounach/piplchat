@@ -4,14 +4,31 @@ import Logo from "../logo.svg";
 import Message from "../components/Message";
 import { chatData } from "../data";
 
+// firebase
+import { useAuth, useFirebaseApp } from "reactfire";
+
 const ChatRoom = () => {
+  const firebaseApp = useFirebaseApp();
+  const auth = useAuth(firebaseApp);
+
+  const handleSignOut = async () => {
+    try {
+      await auth.signOut();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="w-full h-full flex flex-col bg-white">
       <header className="w-full h-20 flex items-center justify-between px-4 bg-indigo-900 mb-4">
         <div>
           <img className="w-20" src={Logo} alt="Logo" />
         </div>
-        <button className="px-4 py-2 bg-yellow-400 rounded-md shadow-md">
+        <button
+          className="px-4 py-2 bg-yellow-400 rounded-md shadow-md"
+          onClick={handleSignOut}
+        >
           Logout
         </button>
       </header>
