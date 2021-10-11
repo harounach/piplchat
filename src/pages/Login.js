@@ -1,7 +1,22 @@
 import React from "react";
 import Logo from "../logo.svg";
 
+import { useAuth, useFirebaseApp } from "reactfire";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
 const Login = () => {
+  const firebaseApp = useFirebaseApp();
+  const auth = useAuth(firebaseApp);
+  const googleProvider = new GoogleAuthProvider();
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="w-full h-full flex flex-col bg-indigo-900">
       <header className="w-full h-20 flex items-center justify-between px-4 mb-4">
@@ -15,7 +30,10 @@ const Login = () => {
           <p className="text-base text-gray-500 text-center my-8">
             Login to the app and start chatting with your friends
           </p>
-          <button className="px-4 py-2 bg-yellow-400 rounded-md shadow-md">
+          <button
+            className="px-4 py-2 bg-yellow-400 rounded-md shadow-md"
+            onClick={handleGoogleSignIn}
+          >
             Sign In with Google
           </button>
         </div>

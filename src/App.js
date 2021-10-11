@@ -2,41 +2,36 @@ import Login from "./pages/Login";
 import ChatRoom from "./pages/ChatRoom";
 
 // firebase imports
-import { doc, getFirestore } from "firebase/firestore";
+
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "@firebase/auth";
+
 import {
-  useFirestoreDocData,
-  useFirestore,
   FirestoreProvider,
   useFirebaseApp,
+  AuthProvider,
+  useAuth,
+  useUser,
 } from "reactfire";
 
-function BurritoTaste() {
-  // easily access the Firestore library
-  const burritoRef = doc(useFirestore(), "tryreactfire", "burrito");
+function MyApp(props) {
+  const auth = useAuth();
+  const { data: user } = useUser(auth);
 
-  // subscribe to a document for realtime updates. just one line!
-  const { status, data } = useFirestoreDocData(burritoRef);
-
-  // easily check the loading status
-  if (status === "loading") {
-    return <p>Fetching burrito flavor...</p>;
-  }
-
-  return <p>The burrito is {data.yummy ? "good" : "bad"}!</p>;
+  return <div className="w-full h-full">{user ? <ChatRoom /> : <Login />}</div>;
 }
 
 function App() {
-  //   const user = false;
-  //
-  //   return <div className="w-full h-full">{user ? <ChatRoom /> : <Login />}</div>;
-
-  const firestoreInstance = getFirestore(useFirebaseApp());
+  const firebaseApp = useFirebaseApp();
+  const firestore = getFirestore(firebaseApp);
+  const auth = getAuth(firebaseApp);
 
   return (
-    <FirestoreProvider sdk={firestoreInstance}>
-      <h1>🌯</h1>
-      <BurritoTaste />
-    </FirestoreProvider>
+    <AuthProvider sdk={auth}>
+      <FirestoreProvider sdk={firestore}>
+        <MyApp />
+      </FirestoreProvider>
+    </AuthProvider>
   );
 }
 
