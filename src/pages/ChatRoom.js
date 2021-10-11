@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../logo.svg";
 
 import Message from "../components/Message";
@@ -8,6 +8,9 @@ import { chatData } from "../data";
 import { useAuth, useFirebaseApp } from "reactfire";
 
 const ChatRoom = () => {
+  // message state
+  const [message, setMessage] = useState("");
+
   const firebaseApp = useFirebaseApp();
   const auth = useAuth(firebaseApp);
 
@@ -17,6 +20,19 @@ const ChatRoom = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (message) {
+      alert(`Your message is: ${message}`);
+    }
+
+    setMessage("");
+  };
+
+  const onInputChange = (e) => {
+    setMessage(e.target.value);
   };
 
   return (
@@ -46,10 +62,12 @@ const ChatRoom = () => {
         </div>
       </main>
       <div className="flex justify-center p-4 bg-indigo-900">
-        <form action="" className="w-6/12 flex">
+        <form className="w-6/12 flex" onSubmit={handleSubmit}>
           <input
             type="text"
             className="px-4 py-2 bg-white rounded-md shadow-md flex-grow w-24"
+            value={message}
+            onChange={onInputChange}
           />
           <button className="px-4 py-2 ml-2 bg-yellow-400 rounded-md shadow-md ">
             Submit
