@@ -2,17 +2,49 @@ import React, { useState } from "react";
 import Logo from "../logo.svg";
 
 import Message from "../components/Message";
-import { chatData } from "../data";
+import { Loader } from "../components/Loader";
 
 // firebase
-import { useAuth, useFirebaseApp } from "reactfire";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  query,
+  orderBy,
+} from "firebase/firestore";
+import {
+  useAuth,
+  useFirebaseApp,
+  useFirestore,
+  useUser,
+  useFirestoreCollectionData,
+} from "reactfire";
 
 const ChatRoom = () => {
   // message state
   const [message, setMessage] = useState("");
 
+  // firebase app
   const firebaseApp = useFirebaseApp();
+
+  // firebase auth
   const auth = useAuth(firebaseApp);
+
+  // user
+  const { data: user } = useUser(auth);
+
+  // firestore instance
+  const firestore = useFirestore();
+
+  const collectRef = collection(firestore, "messages");
+
+  const messagesQuery = query(collectRef, orderBy("createdAt", "asc"));
+
+  const { status, data: messages } = useFirestoreCollectionData(messagesQuery, {
+    idField: "id",
+  });
+
+  console.log(messages);
 
   const handleSignOut = async () => {
     try {
@@ -22,14 +54,39 @@ const ChatRoom = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (message) {
-      alert(`Your message is: ${message}`);
+      try {
+        await addDoc(collectRef, {
+          name: user.displayName,
+          message,
+          uid: user.uid,
+          photoURL: user.photoURL,
+          createdAt: serverTimestamp(),
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     setMessage("");
   };
+
+  const chatRoomBody =
+    status === "loading" ? (
+      <Loader />
+    ) : (
+      messages.map((messageEntry) => {
+        return (
+          <Message
+            key={messageEntry.id}
+            message={messageEntry.message}
+            recepient={messageEntry.isRecepient}
+          />
+        );
+      })
+    );
 
   const onInputChange = (e) => {
     setMessage(e.target.value);
@@ -50,15 +107,7 @@ const ChatRoom = () => {
       </header>
       <main className="w-full flex-grow flex justify-center items-start p-2">
         <div className="w-8/12 shadow-md bg-white rounded-lg p-4 flex flex-col items-center gap-4">
-          {chatData.map((messageEntry) => {
-            return (
-              <Message
-                key={messageEntry.id}
-                message={messageEntry.message}
-                recepient={messageEntry.isRecepient}
-              />
-            );
-          })}
+          {chatRoomBody}
         </div>
       </main>
       <div className="flex justify-center p-4 bg-indigo-900">
@@ -68,6 +117,7 @@ const ChatRoom = () => {
             className="px-4 py-2 bg-white rounded-md shadow-md flex-grow w-24"
             value={message}
             onChange={onInputChange}
+            placeholder="How are you?"
           />
           <button className="px-4 py-2 ml-2 bg-yellow-400 rounded-md shadow-md ">
             Submit
