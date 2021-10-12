@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Logo from "../logo.svg";
 
 import Message from "../components/Message";
@@ -21,6 +21,8 @@ import {
 } from "reactfire";
 
 const ChatRoom = () => {
+  const scroller = useRef();
+
   // message state
   const [message, setMessage] = useState("");
 
@@ -43,8 +45,6 @@ const ChatRoom = () => {
   const { status, data: messages } = useFirestoreCollectionData(messagesQuery, {
     idField: "id",
   });
-
-  console.log(messages);
 
   const handleSignOut = async () => {
     try {
@@ -71,6 +71,7 @@ const ChatRoom = () => {
     }
 
     setMessage("");
+    scroller.current.scrollIntoView({ behavior: "smooth" });
   };
 
   const isRecepient = (currentUID, UID) => {
@@ -109,9 +110,10 @@ const ChatRoom = () => {
           Logout
         </button>
       </header>
-      <main className="w-full flex-grow flex justify-center items-start p-2">
-        <div className="w-8/12 shadow-md bg-white rounded-lg p-4 flex flex-col items-center gap-4">
+      <main className="w-full flex-grow flex justify-center items-start p-2 overflow-y-scroll">
+        <div className="w-full sm:w-8/12 md:w-7/12  p-4 flex flex-col items-center gap-4">
           {chatRoomBody}
+          <span ref={scroller}></span>
         </div>
       </main>
       <div className="flex justify-center p-4 bg-indigo-900">

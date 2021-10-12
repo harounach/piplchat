@@ -1,41 +1,31 @@
 import React from "react";
-import classNames from "tailwindcss-classnames";
 
 const Message = ({ recepient, messageEntry }) => {
-  const avatarClasses = classNames(
-    "w-14",
-    "h-14",
-    "bg-blue-400",
-    "rounded-full",
-    "flex",
-    "justify-center",
-    "items-center",
-    "flex-shrink-0",
-    "overflow-hidden",
-    { "mr-2": !recepient },
-    { "ml-2": recepient }
-  );
-
-  const messageRowClasses = classNames("flex", "w-full", {
-    "flex-row-reverse": recepient,
-  });
-
-  const messageClasses = classNames(
-    { "bg-blue-200": !recepient },
-    { "bg-gray-200": recepient },
-    "p-2 rounded-lg"
-  );
-
-  return (
-    <div className={messageRowClasses}>
+  const senderView = (
+    <div className="flex w-full">
       {/* avatar */}
-      <div className={avatarClasses}>
+      <div className="w-14 h-14 bg-blue-400 rounded-full flex justify-center items-center flex-shrink-0 overflow-hidden mr-2">
         <img src={messageEntry.photoURL} alt={messageEntry.name + " Photo"} />
       </div>
       {/* Message */}
-      <p className={messageClasses}>{messageEntry.message}</p>
+      <p className="bg-blue-200 p-2 rounded-lg">{messageEntry.message}</p>
     </div>
   );
+
+  const recepientVeiw = (
+    <div className="flex w-full flex-row-reverse">
+      {/* avatar */}
+      <div className="w-14 h-14 bg-blue-400 rounded-full flex justify-center items-center flex-shrink-0 overflow-hidden ml-2">
+        <img src={messageEntry.photoURL} alt={messageEntry.name + " Photo"} />
+      </div>
+      {/* Message */}
+      <p className="bg-gray-200 p-2 rounded-lg">{messageEntry.message}</p>
+    </div>
+  );
+
+  const messageView = recepient ? recepientVeiw : senderView;
+
+  return messageView;
 };
 
 export default Message;
